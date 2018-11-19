@@ -18,30 +18,38 @@ from beautifultable import BeautifulTable
 import random
 #dice_one = random.randint(0, 36)
 
-
-def welcome():
-    print(
-    """
-    WELCOME TO THE BIG HANK'S HOTEL AND CASINO
-
-    Where you can strike it RICH at the Roulette table!
-    """
-        )
-
-'''
-*
-Declare Player
+'''==============================>>
+Welcome message
+Intro message
+Establish Player
 Establish initial purse amount and calculate earnings/losses
-*
 '''
+player_one = ""
+player_purse = 0
+player_bet_type = 'What type of bet would you like to place? '
+player_bet_amount = 'How much would you like to bet? '
+player_bet_numbers = []
+welcome_message = (
+f"""
+WELCOME TO THE BIG HANK'S HOTEL AND CASINO
 
-player_one = input('Player 1, please enter your name: ').capitalize()
-player_one_purse = 500
+Where you can strike it RICH at the Roulette table!
+"""
+)
 
-'''
-*
+intro_message = (
+f"""
+~ Here are $500 in chips to start the game.
+
+~ Take a look at our playing table and our betting scheme.
+
+~ Think about where you would like to place you bets.
+"""
+)
+
+
+'''==============================>>
 Setup table spaces
-*
 '''
 
 zero_spot = {
@@ -70,43 +78,41 @@ def roulette():
 
 
 
-'''
-*
+'''==============================>>
 Establish betting scheme
-*
 '''
 
-bet_table = BeautifulTable()
-bet_table.column_headers = ['Type of Bet', 'Payout', 'Chance of Winning']
-bet_table.append_row(['Reds / Blacks (color)', '1:1', '48.65%'])
-bet_table.append_row(['Evens / Odds', '1:1', '48.65%'])
-bet_table.append_row(['Lows / Highs (1-18 / 19-36)', '1:1', '48.65%'])
-bet_table.append_row(['Dozens', '2:1', '32.43%'])
-bet_table.append_row(['Columns', '2:1', '32.43%'])
-bet_table.append_row(['6 Numbers (6 line)',	'5:1', '16.22%'])
-bet_table.append_row(['4 Numbers (square)',	'8:1',	'10.81%'])
-bet_table.append_row(['3 Numbers (street)',	'11:1',	'8.11%'])
-bet_table.append_row(['2 Numbers (split)',	'17:1',	'5.41%'])
-bet_table.append_row(['1 Number (straight)', '35:1', '2.70%'])
-bet_table.column_alignments['Type of Bet'] = BeautifulTable.ALIGN_LEFT
-return bet_table
+def bet_scheme():
+    bet_table = BeautifulTable()
+    bet_table.column_headers = ['Type of Bet', 'Payout', 'Chance of Winning']
+    bet_table.append_row(['Reds / Blacks (color)', '1:1', '48.65%'])
+    bet_table.append_row(['Evens / Odds', '1:1', '48.65%'])
+    bet_table.append_row(['Lows / Highs (1-18 / 19-36)', '1:1', '48.65%'])
+    bet_table.append_row(['Dozens', '2:1', '32.43%'])
+    bet_table.append_row(['Columns', '2:1', '32.43%'])
+    bet_table.append_row(['6 Numbers (6 line)',	'5:1', '16.22%'])
+    bet_table.append_row(['4 Numbers (square)',	'8:1',	'10.81%'])
+    bet_table.append_row(['3 Numbers (street)',	'11:1',	'8.11%'])
+    bet_table.append_row(['2 Numbers (split)',	'17:1',	'5.41%'])
+    bet_table.append_row(['1 Number (straight)', '35:1', '2.70%'])
+    bet_table.column_alignments['Type of Bet'] = BeautifulTable.ALIGN_LEFT
+    print(bet_table)
 
-'''
-*
+'''==============================>>
 Place your bets
-*
 '''
 
-player_bet = int(input(f'{player_one} how much would you like to bet?'))
-bet_type = input('What type of bet would you like to make? ')
+def player_num(selected):
+  for _ in range(selected):
+      value = int(input("Enter the number you are betting on: "))
+      player_bet_numbers.append(value)
+  print(player_bet_numbers)
+  return player_bet_numbers
 
 
-'''
-*
+'''==============================>>
 Play the ball: selects a random number from the table
-
 Determine what spot the ball landed on and display it to the players
-*
 '''
 
 def play_ball():
@@ -121,16 +127,35 @@ def play_ball():
         return f'ball lands on BLACK: {ball}'
 
 
-'''
-*
+'''==============================>>
 Calculate payout
-*
 '''
 
-'''
-*
+def payout(amount, bet_type):
+    player_purse = player_purse + (amount * bet)
+    print(player_purse)
+    return player_purse
+
+    reds = black = evens = odds = lows = highs = amount * 1
+    dozens = columns = amount * 2
+    6line = amount * 5
+    square = amount * 8
+    street = amount * 11
+    split = amount * 17
+    straight = amount * 35
+    
+
+'''==============================>>
 Play again OR End Game
-*
 '''
 
+
+
+
+
+roulette()
+bet_scheme()
+
+#bet_type = input('What type of bet would you like to make? ')
+#player_bet = int(input(f'{player_one} how much would you like to bet? '))
 
