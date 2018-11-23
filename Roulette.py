@@ -69,11 +69,11 @@ columns3 = [3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36]
 dozens1 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 dozens2 = [13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
 dozens3 = [25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36]
-six = 6
-square = 4
-street = 3
-split = 2
-straight = 1
+#six = 6
+#square = 4
+#street = 3
+#split = 2
+#straight = 1
 
 def roulette():
     roulette_table = BeautifulTable()
@@ -119,12 +119,12 @@ def bet_scheme():
 Place your bets
 '''
 
-def player_num(selected):
+def selected_player_num(selected):
   for _ in range(selected):
       value = int(input("Enter the number you are betting on: "))
       player_bet_numbers.append(value)
-  print(player_bet_numbers)
-  return player_bet_numbers
+  #print(player_bet_numbers)
+  #return player_bet_numbers
 
 
 '''==============================>>
@@ -206,15 +206,16 @@ def play_the_game ():
         player_bet_numbers = columns2
     elif player_bet_type_inp == 'columns3':
         player_bet_numbers = columns3
-    elif player_bet_type_inp == 'six_line':
-        ...
+    elif player_bet_type_inp == 'six line':
+        selected_player_num(6)
     elif player_bet_type_inp == 'square':
-        ...
+        selected_player_num(4)
     elif player_bet_type_inp == 'street':
-        ...
+        selected_player_num(3)
     elif player_bet_type_inp == 'split':
-        ...
+        selected_player_num(2)
     elif player_bet_type_inp == 'straight':
+        selected_player_num(1)
 
         
         
