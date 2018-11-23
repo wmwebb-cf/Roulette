@@ -1,6 +1,4 @@
 """
-WELCOME TO THE BIG HANK'S HOTEL AND CASINO!
-
 Tasks:
 [x] Set up the table with proper numbers and colors
 [x] Set up ball play that selects a number and a color
@@ -14,6 +12,7 @@ Tasks:
 [] Play again OR End Game
 
 """
+
 from beautifultable import BeautifulTable
 import random
 #dice_one = random.randint(0, 36)
@@ -26,16 +25,17 @@ Establish initial purse amount and calculate earnings/losses
 '''
 
 player_one = ''
-player_purse = 0
+player_purse = 500
 player_bet_type = 'What type of bet would you like to place?'
-player_bet_type_inp = input('Enter Bet Type: ').lower()
 player_bet_amount = 'How much would you like to bet?'
-player_bet_amount_inp = input('Enter Amount: ')
+player_payout = 0
 player_bet_numbers = []
+inside_bet = []
+player_name = input(f'Hello new player. Please enter your Name: ').capitalize()
 
 welcome_message = (
 f"""
-WELCOME TO THE BIG HANK'S HOTEL AND CASINO
+{player_name}, WELCOME TO BIG HANK'S HOTEL AND CASINO
 
 Where you can strike it RICH at the Roulette table!
 """
@@ -43,9 +43,9 @@ Where you can strike it RICH at the Roulette table!
 
 intro_message = (
 f"""
-~ Here are $500 in chips to start the game.
+~ {player_name}, here are $500 in chips to get you started.
 
-~ Take a look at our playing table and our betting scheme.
+~ Take a look at our playing table and our betting scheme above.
 
 ~ Think about where you would like to place you bets.
 """
@@ -55,27 +55,26 @@ f"""
 '''==============================>>
 Setup table spaces
 '''
-
-zero_spot = {
-    'zero': [0, 0]
-    }
+table = [0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
+         15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27,
+         28, 29, 30, 31, 32, 33, 34, 35, 36]
+zero = [0, 0]
 red = [1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36]
 black = [2, 4, 6, 8, 10, 11, 13, 15, 17, 20, 22, 24, 26, 28, 29, 31, 33, 35]
 evens = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36]
 odds = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31, 33, 35]
+lows = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]
+highs = [19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36]
 columns1 = [1, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31, 34]
 columns2 = [2, 5, 8, 11, 14, 17, 20, 23, 26, 29, 32, 35]
 columns3 = [3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36]
 dozens1 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 dozens2 = [13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
 dozens3 = [25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36]
-#six = 6
-#square = 4
-#street = 3
-#split = 2
-#straight = 1
+
 
 def roulette():
+    
     roulette_table = BeautifulTable()
     roulette_table.insert_column(0, ' ', ['1-Red', '4-Black', '7-Red', '10-Black',
                                         '13-Black', '16-Red', '19-Red', '22-Black',
@@ -110,6 +109,7 @@ def bet_scheme():
     bet_table.append_row(['6 Numbers (6 line)',	'5:1', '16.22%'])
     bet_table.append_row(['4 Numbers (square)',	'8:1',	'10.81%'])
     bet_table.append_row(['3 Numbers (street)',	'11:1',	'8.11%'])
+    bet_table.append_row(['Zero Row (split)',	'17:1',	'5.41%'])
     bet_table.append_row(['2 Numbers (split)',	'17:1',	'5.41%'])
     bet_table.append_row(['1 Number (straight)', '35:1', '2.70%'])
     bet_table.column_alignments['Type of Bet'] = BeautifulTable.ALIGN_LEFT
@@ -121,27 +121,66 @@ Place your bets
 
 def selected_player_num(selected):
   for _ in range(selected):
-      value = int(input("Enter the number you are betting on: "))
+      value = int(input("{player_name}, enter the number you would like to bet on: "))
       player_bet_numbers.append(value)
-  #print(player_bet_numbers)
-  #return player_bet_numbers
+  print(player_bet_numbers)
+  return player_bet_numbers
+
+def player_numbers(i, n):
+
+    if i == 'red':
+        n.extend(red)
+    elif i == 'black':
+        n.extend(black)
+    elif i == 'evens':
+        n.extend(evens)
+    elif i == 'odds':
+        n.extend(odds)
+    elif i == 'lows':
+        n.extend(lows)
+    elif i == 'highs':
+        n.extend(highs)
+    elif i == 'dozens 1':
+        n.extend(dozens1)
+    elif i == 'dozens 2':
+        n.extend(dozens2)
+    elif i == 'dozens 3':
+        n.extend(dozens3)
+    elif i == 'columns 1':
+        n.extend(columns1)
+    elif i == 'columns 2':
+        n.extend(columns2)
+    elif i == 'columns 3':
+        n.extend(columns3)
+    elif i == 'zero row':
+        n.extend(zero)
+    elif i == 'six line':
+        selected_player_num(6)
+    elif i == 'square':
+        selected_player_num(4)
+    elif i == 'street':
+        selected_player_num(3)
+    elif i == 'split':
+        selected_player_num(2)
+    elif i == 'straight':
+        selected_player_num(1)
+
+    return n
+    
 
 
 '''==============================>>
 Play the ball: selects a random number from the table
 Determine what spot the ball landed on and display it to the players
 '''
-
+ball = random.choice(table)
 def play_ball():
-### CHANGE THIS LOGIC
-    ball = random.choice(zero_spot['zero'] + red_spot['red'] + black_spot['black'])
-    
-    if ball in [x for y in zero_spot.values() for x in y]:
-        return f'ball lands on GREEN: {ball}'
-    elif ball in [x for y in red_spot.values() for x in y]:
-        return f'ball lands on RED: {ball}'
-    elif ball in [x for y in black_spot.values() for x in y]:
-        return f'ball lands on BLACK: {ball}'
+
+    print(f'{player_name} bets on {player_bet_numbers}')
+    if ball in player_bet_numbers:
+      print(f'Ball lands on {ball}. PLAYER WINS!!!')
+    else:
+        print(f'Ball lands on {ball}. House keeps the cash.')
 
 
 '''==============================>>
@@ -149,17 +188,27 @@ Calculate payout
 '''
 
 def payout(amount, bet_type):
-    player_purse = player_purse + (amount * bet)
-    print(player_purse)
-    return player_purse
+    
+    if ball not in player_bet_numbers:
+        player_payout = -1 * amount
+    elif ball in player_bet_numbers and bet_type is 'red' or 'black' or 'evens' or 'odds' or 'lows' or 'highs':
+        player_payout = 0
+    elif ball in player_bet_numbers and bet_type is 'dozens 1' or 'dozens 2' or 'dozens 3' or 'columns 1' or 'columns 2' or 'columns 3':
+        player_payout = amount * 2
+    elif ball in player_bet_numbers and bet_type is 'six line':
+        player_payout = amount * 5
+    elif ball in player_bet_numbers and bet_type is 'square':
+        player_payout = amount * 8
+    elif ball in player_bet_numbers and bet_type is 'street':
+        player_payout = amount * 11
+    elif ball in player_bet_numbers and bet_type is 'split' or 'zero row':
+        player_payout = amount * 17
+    elif ball in player_bet_numbers and bet_type is 'straight':
+        player_payout = amount * 35
+    
+    print(f'{player_name} now has ${player_purse + player_payout} to play with.')
+    return player_purse + player_payout
 
-    reds = blacks = evens = odds = lows = highs = amount * 1
-    dozens = columns = amount * 2
-    six_line = amount * 5
-    square = amount * 8
-    street = amount * 11
-    split = amount * 17
-    straight = amount * 35
     
 
 '''==============================>>
@@ -167,68 +216,28 @@ Play again OR End Game
 '''
 
 
-
-
-
-roulette()
-bet_scheme()
-
-#bet_type = input('What type of bet would you like to make? ')
-#player_bet = int(input(f'{player_one} how much would you like to bet? '))
-
-
-
 def play_the_game ():
+    
+    roulette()
+    bet_scheme()
 
-    print(player_bet_type) # = 'What type of bet would you like to place?'
-    print(player_bet_type_inp) # = input('Enter Bet Type: ').lower()
-    if player_bet_type_inp == 'red':
-        player_bet_numbers = red
-    elif player_bet_type_inp == 'black':
-        player_bet_numbers = black
-    elif player_bet_type_inp == 'evens':
-        player_bet_numbers = evens
-    elif player_bet_type_inp == 'odds':
-        player_bet_numbers = odds
-    elif player_bet_type_inp == 'lows':
-        player_bet_numbers = lows
-    elif player_bet_type_inp == 'highs':
-        player_bet_numbers = highs
-    elif player_bet_type_inp == 'dozens1':
-        player_bet_numbers = dozens1
-    elif player_bet_type_inp == 'dozens2':
-        player_bet_numbers = dozens2
-    elif player_bet_type_inp == 'dozens3':
-        player_bet_numbers = dozens3
-    elif player_bet_type_inp == 'columns1':
-        player_bet_numbers = columns1
-    elif player_bet_type_inp == 'columns2':
-        player_bet_numbers = columns2
-    elif player_bet_type_inp == 'columns3':
-        player_bet_numbers = columns3
-    elif player_bet_type_inp == 'six line':
-        selected_player_num(6)
-    elif player_bet_type_inp == 'square':
-        selected_player_num(4)
-    elif player_bet_type_inp == 'street':
-        selected_player_num(3)
-    elif player_bet_type_inp == 'split':
-        selected_player_num(2)
-    elif player_bet_type_inp == 'straight':
-        selected_player_num(1)
+    
+    print(welcome_message)
+    print(intro_message)
 
-        
-        
-    6line = amount * 5
-    square = amount * 8
-    street = amount * 11
-    split = amount * 17
-    straight = amount * 35
-    print('What numbers would you like to bet on?')
-    print(player_bet_amount) # = 'How much would you like to bet?'
-    print(player_bet_amount_inp) # = input('Enter Amount: ')
+    
 
+    player_bet_type_inp = input('Select a type of bet from the above table. Enter Your Bet Type: ').lower()
 
+    player_numbers(player_bet_type_inp, player_bet_numbers)
+
+    player_bet_amount = int(input('How much would you like to bet? Enter Bet Amount: '))
+
+    play_ball()
+    
+    payout(player_bet_amount, player_bet_type_inp)
+
+play_the_game()
 
 
 
