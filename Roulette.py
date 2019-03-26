@@ -1,15 +1,9 @@
-"""
-Tasks:
-[x] Set up the table with proper numbers and colors
-[x] Set up ball play that selects a number and a color
-[x] Declare player(s)
-[] Establish initial purse amount and calculate earnings/losses
-[x] Establish betting scheme
-[] Place your bets
-[] Play the ball
-[x] Determine where the ball landed and display it to the players
-[] Calculate payout
-[] Play again OR End Game
+""" Tasks: [x] Set up the table with proper numbers and colors [x] Set
+up ball play that selects a number and a color [x] Declare player(s) [x]
+Establish initial purse amount and calculate earnings/losses [x]
+Establish betting scheme [x] Place your bets [x] Play the ball [x]
+Determine where the ball landed and display it to the players [x]
+Calculate payout [] Play again OR End Game
 
 """
 
@@ -47,7 +41,7 @@ f"""
 
 ~ Take a look at our playing table and our betting scheme above.
 
-~ Think about where you would like to place you bets.
+~ Think about where you would like to place your bets.
 """
 )
 
@@ -59,8 +53,8 @@ table = [0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
          15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27,
          28, 29, 30, 31, 32, 33, 34, 35, 36]
 zero = [0, 0]
-red = [1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36]
-black = [2, 4, 6, 8, 10, 11, 13, 15, 17, 20, 22, 24, 26, 28, 29, 31, 33, 35]
+reds = [1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36]
+blacks = [2, 4, 6, 8, 10, 11, 13, 15, 17, 20, 22, 24, 26, 28, 29, 31, 33, 35]
 evens = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36]
 odds = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31, 33, 35]
 lows = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]
@@ -110,8 +104,8 @@ def bet_scheme():
     bet_table.append_row(['4 Numbers (square)',	'8:1',	'10.81%'])
     bet_table.append_row(['3 Numbers (street)',	'11:1',	'8.11%'])
     bet_table.append_row(['Zero Row (split)',	'17:1',	'5.41%'])
-    bet_table.append_row(['2 Numbers (split)',	'17:1',	'5.41%'])
-    bet_table.append_row(['1 Number (straight)', '35:1', '2.70%'])
+    bet_table.append_row(['Split(2 numbers)',	'17:1',	'5.41%'])
+    bet_table.append_row(['Straight(1 number)', '35:1', '2.70%'])
     bet_table.column_alignments['Type of Bet'] = BeautifulTable.ALIGN_LEFT
     print(bet_table)
 
@@ -128,10 +122,10 @@ def selected_player_num(selected):
 
 def player_numbers(i, n):
 
-    if i == 'red':
-        n.extend(red)
-    elif i == 'black':
-        n.extend(black)
+    if i == 'reds':
+        n.extend(reds)
+    elif i == 'blacks':
+        n.extend(blacks)
     elif i == 'evens':
         n.extend(evens)
     elif i == 'odds':
@@ -191,7 +185,7 @@ def payout(amount, bet_type):
     
     if ball not in player_bet_numbers:
         player_payout = -1 * amount
-    elif ball in player_bet_numbers and bet_type is 'red' or 'black' or 'evens' or 'odds' or 'lows' or 'highs':
+    elif ball in player_bet_numbers and bet_type is 'reds' or 'blacks' or 'evens' or 'odds' or 'lows' or 'highs':
         player_payout = 0
     elif ball in player_bet_numbers and bet_type is 'dozens 1' or 'dozens 2' or 'dozens 3' or 'columns 1' or 'columns 2' or 'columns 3':
         player_payout = amount * 2
@@ -207,6 +201,7 @@ def payout(amount, bet_type):
         player_payout = amount * 35
     
     print(f'{player_name} now has ${player_purse + player_payout} to play with.')
+    
     return player_purse + player_payout
 
     
@@ -214,7 +209,21 @@ def payout(amount, bet_type):
 '''==============================>>
 Play again OR End Game
 '''
+def play_again():
+    re_bet = input(f'Would you like to place another bet? y/n:  ')
+    if re_bet != 'y':
+        print(f'Thanks for playing!')
+    else:
+        
+        player_bet_type_inp = input('Select a type of bet from the above table. Enter Your Bet Type: ').lower()
 
+        player_numbers(player_bet_type_inp, player_bet_numbers)
+
+        player_bet_amount = int(input('How much would you like to bet? Enter Bet Amount: '))
+
+        play_ball()
+    
+        payout(player_bet_amount, player_bet_type_inp)
 
 def play_the_game ():
     
@@ -236,6 +245,8 @@ def play_the_game ():
     play_ball()
     
     payout(player_bet_amount, player_bet_type_inp)
+
+    play_again()
 
 play_the_game()
 
